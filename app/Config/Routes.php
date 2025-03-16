@@ -5,9 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get("/", "Home::index");
-$routes->get("/cyt/sobre-nosotros", "Home::about");
-$routes->get("/ayuntamiento-info/(:num)", "Home::ayuntamiento/$1");
-$routes->get("/ayuntamientos", "Ayuntamiento::index");
+$routes->post("/login", "Auth::login");
+$routes->get("/login", "Auth::index");
 
-// $routes->setAutoRoute(true);
+$routes->get("/dashboard", "Dashboard::index");
+$routes->get("/crear_factura", "Factura::index");
+$routes->post("/crear_factura", "Factura::crear");

@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AyuntamientoModel extends Model
+class Gestor extends Model
 {
-    protected $table = "ayuntamientos";
+    protected $table = "gestores";
     protected $primaryKey = "id";
     protected $useAutoIncrement = true;
     protected $returnType = "object";
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ["nombre", "cod"];
+    protected $allowedFields = ["nombre", "telefono", "clave"];
 
     protected bool $allowEmptyInserts = false;
 

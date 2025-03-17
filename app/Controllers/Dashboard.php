@@ -9,10 +9,12 @@ class Dashboard extends BaseController
 {
     public function index()
     {
-        $facturaModel = model("Factura");
+        $session = session();
+        var_dump($session->get("gestor"));
+        $facturaModel = model("FacturaModel");
         $facturas = $facturaModel->findAll();
         // var_dump($facturas);
 
-        return view("dashboard", ["facturas" => $facturas]);
+        return view("dashboard/dashboard", ["facturas" => $facturas]);
     }
 }

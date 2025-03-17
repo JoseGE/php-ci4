@@ -24,7 +24,7 @@ class Auth extends BaseController
                 ->where("telefono", $_POST["telefono"])
                 ->where("clave", $_POST["clave"])
                 ->first();
-            $session = \Config\Services::session();
+            $session = session();
             $session->set("gestor", $gestor);
             return redirect()->to("/dashboard");
         } else {

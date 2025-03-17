@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
+use CodeIgniter\HTTP\ResponseInterface;
+
 class Auth extends BaseController
 {
     public function index()
@@ -14,21 +16,29 @@ class Auth extends BaseController
     public function login()
     {
         $validations = \Config\Services::validation();
-        $validations->setRules([
-            "telefono" => "required|numeric|min_length[10]|max_length[10]",
-            "clave" => "required|min_length[6]|max_length[20]",
-        ]);
-        if ($validations->run($_POST)) {
+
+        $input = $this->getRequestInput();
+        if ($validations->run($input, "auth")) {
             $gestorModel = new \App\Models\Gestor();
             $gestor = $gestorModel
-                ->where("telefono", $_POST["telefono"])
-                ->where("clave", $_POST["clave"])
+                ->where("telefono", $input["telefono"])
+                ->where("clave", $input["clave"])
                 ->first();
-            $session = session();
-            $session->set("gestor", $gestor);
-            return redirect()->to("/dashboard");
+
+            $iat = time();
+            $payload = [
+                "id" => $gestor->id,
+                "iat" => $iat,
+                "exp" => $iat + 60,
+            ];
+            $token = \Firebase\JWT\JWT::encode($payload, "municipia", "HS256");
+
+            return $this->setResponse(["user" => $gestor, "token" => $token]);
         } else {
-            var_dump($validations->getErrors());
+            return $this->setResponse(
+                ["errors" => $validations->getErrors()],
+                ResponseInterface::HTTP_BAD_REQUEST
+            );
         }
     }
 }

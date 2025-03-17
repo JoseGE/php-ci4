@@ -8,6 +8,7 @@ use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\Honeypot;
 use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\AuthJWT;
 
 class Filters extends BaseConfig
 {
@@ -19,11 +20,12 @@ class Filters extends BaseConfig
      *                                                     or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
-        'csrf'          => CSRF::class,
-        'toolbar'       => DebugToolbar::class,
-        'honeypot'      => Honeypot::class,
-        'invalidchars'  => InvalidChars::class,
-        'secureheaders' => SecureHeaders::class,
+        "csrf" => CSRF::class,
+        "toolbar" => DebugToolbar::class,
+        "honeypot" => Honeypot::class,
+        "invalidchars" => InvalidChars::class,
+        "secureheaders" => SecureHeaders::class,
+        "auth" => AuthJWT::class,
     ];
 
     /**
@@ -33,13 +35,13 @@ class Filters extends BaseConfig
      * @var array<string, array<string, array<string, string>>>|array<string, list<string>>
      */
     public array $globals = [
-        'before' => [
+        "before" => [
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
         ],
-        'after' => [
-            'toolbar',
+        "after" => [
+            "toolbar",
             // 'honeypot',
             // 'secureheaders',
         ],

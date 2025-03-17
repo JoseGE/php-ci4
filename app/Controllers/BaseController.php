@@ -59,8 +59,17 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
     }
 
-    public function cargarLista()
+    public function setResponse($data, $code = ResponseInterface::HTTP_OK)
     {
-        return "Algo";
+        return $this->response->setStatusCode($code)->setJSON($data);
+    }
+
+    public function getRequestInput()
+    {
+        $input = $this->request->getPost();
+        if (empty($input)) {
+            $input = json_decode($this->request->getBody(), true);
+        }
+        return $input;
     }
 }

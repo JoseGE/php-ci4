@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\FacturaModel;
 
 class Factura extends BaseController
 {
@@ -13,12 +15,16 @@ class Factura extends BaseController
 
     public function listar()
     {
-        $facturas = \App\Models\FacturaModel::findAll();
-        return view("factura/listar_facturas", ["facturas" => $facturas]);
+        $facturas = new FacturaModel();
+        return $this->setResponse([
+            "facturas" => $facturas->findAll(),
+        ]);
     }
 
     public function crear()
     {
+        $header = $this->request->getHeaderLine("Authorization");
+
         $validations = \Config\Services::validation();
         $validations->setRules([
             "contribuyente" => "required|numeric",
